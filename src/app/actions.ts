@@ -1,6 +1,6 @@
 "use server"
 
-import puppeteer from "puppeteer-extra"
+import puppeteer from "puppeteer"
 // import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import path from "path"
 import fs from "fs/promises"
@@ -15,13 +15,13 @@ import http from "http"
 export async function scrapeWebsite(url: string) {
   // const browser = await puppeteer.launch()
   const browser = await puppeteer.launch({
-    // headless: true, // Use "new" for better performance in latest Puppeteer versions
-    // args: [
-    //   '--no-sandbox',
-    //   '--disable-setuid-sandbox',
-    //   '--disable-web-security',
-    //   '--disable-features=IsolateOrigins,site-per-process'
-    // ],
+    headless: true, // Use "new" for better performance in latest Puppeteer versions
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-web-security',
+      '--disable-features=IsolateOrigins,site-per-process'
+    ],
   });
   const page = await browser.newPage()
 
