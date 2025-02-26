@@ -1,7 +1,11 @@
 "use server"
 
-import puppeteer from "puppeteer"
+// import puppeteer from "puppeteer"
+// import puppeteer from "puppeteer-extre"
 // import StealthPlugin from "puppeteer-extra-plugin-stealth";
+import puppeteer from "puppeteer-core";
+import chromium from "@sparticuz/chromium";
+
 import path from "path"
 import fs from "fs/promises"
 import * as fsFady from "fs";
@@ -13,23 +17,30 @@ import http from "http"
 
 
 export async function scrapeWebsite(url: string) {
+  const executablePath = await chromium.executablePath();
   // const browser = await puppeteer.launch()
+  // const browser = await puppeteer.launch({
+  //   headless: true, // Use "new" for better performance in latest Puppeteer versions
+  //   args: [
+  //     '--no-sandbox',
+  //     '--disable-setuid-sandbox',
+  //     '--disable-web-security',
+  //     '--disable-features=IsolateOrigins,site-per-process'
+  //   ],
+  // });
   const browser = await puppeteer.launch({
-    headless: true, // Use "new" for better performance in latest Puppeteer versions
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-web-security',
-      '--disable-features=IsolateOrigins,site-per-process'
-    ],
+    args: chromium.args,
+    executablePath: executablePath || "/usr/bin/chromium-browser", // Gets correct Chromium binary
+    headless: chromium.headless === "true", // ✅ FIXED HERE
   });
+
   const page = await browser.newPage()
 
   try {
     await page.goto(url, { waitUntil: "networkidle0" })
 
     // Scroll through the page to trigger lazy-loading
-    
+
     // await autoScroll(page);
 
     // Wait for dynamically loaded content
@@ -113,7 +124,7 @@ export async function scrapeWebsite(url: string) {
 //   });
 // }
 
-export async function downloadFiles(urls: string[], folderName = "WebScraper" , folderLocation = "Downloads") {
+export async function downloadFiles(urls: string[], folderName = "WebScraper", folderLocation = "Downloads") {
   // Use the system's Downloads folder
   const downloadsFolder = path.join(os.homedir(), folderLocation, folderName)
   await fs.mkdir(downloadsFolder, { recursive: true })
