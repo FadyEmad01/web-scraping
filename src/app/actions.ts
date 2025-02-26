@@ -63,6 +63,7 @@ export async function scrapeWebsite(url: string) {
     await browser.close()
 
     // const proxyBaseUrl ='http://localhost:3000/api/proxy?url=';
+    // const proxyBaseUrl ='https://web-scraping-cyan.vercel.app/api/proxy?url=';
     // const proxyBaseUrl ='';
 
     return {
