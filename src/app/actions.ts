@@ -1,10 +1,10 @@
 "use server"
 
 // import puppeteer from "puppeteer"
-// import puppeteer from "puppeteer-extre"
+import puppeteer from "puppeteer-extra"
 // import StealthPlugin from "puppeteer-extra-plugin-stealth";
-import puppeteer from "puppeteer-core";
-import chromium from "@sparticuz/chromium";
+// import puppeteer from "puppeteer-core";
+// import chromium from "@sparticuz/chromium";
 
 import path from "path"
 import fs from "fs/promises"
@@ -17,22 +17,22 @@ import http from "http"
 
 
 export async function scrapeWebsite(url: string) {
-  const executablePath = await chromium.executablePath();
+  // const executablePath = await chromium.executablePath();
   // const browser = await puppeteer.launch()
-  // const browser = await puppeteer.launch({
-  //   headless: true, // Use "new" for better performance in latest Puppeteer versions
-  //   args: [
-  //     '--no-sandbox',
-  //     '--disable-setuid-sandbox',
-  //     '--disable-web-security',
-  //     '--disable-features=IsolateOrigins,site-per-process'
-  //   ],
-  // });
   const browser = await puppeteer.launch({
-    args: chromium.args,
-    executablePath: executablePath || "/usr/bin/chromium-browser", // Gets correct Chromium binary
-    headless: chromium.headless === "true", // ✅ FIXED HERE
+    headless: true, // Use "new" for better performance in latest Puppeteer versions
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-web-security',
+      '--disable-features=IsolateOrigins,site-per-process'
+    ],
   });
+  // const browser = await puppeteer.launch({
+  //   args: chromium.args,
+  //   executablePath: executablePath || "/usr/bin/chromium-browser", // Gets correct Chromium binary
+  //   headless: chromium.headless === "true", // ✅ FIXED HERE
+  // });
 
   const page = await browser.newPage()
 
