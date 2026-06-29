@@ -1,0 +1,12 @@
+{
+  "functions": {
+    "src/app/actions.ts": {
+      "memory": 1024,
+      "maxDuration": 30
+    },
+    "src/app/api/**/*.ts": {
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  }
+}
